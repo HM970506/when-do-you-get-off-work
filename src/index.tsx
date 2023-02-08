@@ -1,12 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import Main from "./pages/main";
+import { Provider } from "react-redux";
+import store from "./store/store";
 
 const App = () => {
   return (
-    <div className="App">
-      <Main />
-    </div>
+    <Provider store={store}>
+      <div className="App">
+        <Main />
+      </div>
+    </Provider>
   );
 };
 
