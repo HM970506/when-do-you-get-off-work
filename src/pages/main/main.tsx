@@ -13,8 +13,8 @@ const BUSID_MAP = busIdMap();
 
 const Main = () => {
   const [state, setState] = useState<string | null>(null);
-  const [stations, setStations] = useState(null);
-  const busNumberRef = useRef<HTMLInputElement>(null);
+  const [stations, setStations] = useState([]);
+  const idRef = useRef<HTMLInputElement>(null);
 
   const submitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -31,17 +31,7 @@ const Main = () => {
   const radiobuttonHandler = async (e: ChangeEvent<HTMLInputElement>) => {
     const transpor = e.target.value;
     setState(transpor);
-
-    if (transpor == BUS && busNumberRef.current) {
-      if (busNumberRef.current.value != null) {
-        const data = await fetchBusData(
-          BUSID_MAP.get(busNumberRef.current.value)
-        );
-      } else {
-      }
-    } else if (transpor == SUBWAY) {
-      const data = await fetchSubwayData(1);
-    }
+    setStations([]);
   };
 
   return (
@@ -56,7 +46,6 @@ const Main = () => {
             value={BUS}
             onChange={radiobuttonHandler}
           />
-          <input type="text" placeholder="버스번호" ref={busNumberRef} />
         </div>
         <div>
           <label>지하철</label>
@@ -67,8 +56,37 @@ const Main = () => {
             onChange={radiobuttonHandler}
           />
         </div>
-        {state != null && <div>정거장 목록: {state}</div>}
-        {stations != null && <button>확인하기</button>}
+        {state != null && (
+          <>
+            {state == BUS ? (
+              <input type="text" placeholder="버스 번호" ref={idRef} />
+            ) : (
+              <select>
+                <option value="null">호선 선택</option>
+                <option value="1">1호선</option>
+                <option value="2">2호선</option>
+                <option value="3">3호선</option>
+                <option value="4">4호선</option>
+                <option value="5">5호선</option>
+                <option value="6">6호선</option>
+                <option value="7">7호선</option>
+                <option value="8">8호선</option>
+                <option value="9">9호선</option>
+              </select>
+            )}
+            <select>
+              <option value="null">정류장 선택</option>
+              {stations.map((station, key) => {
+                return (
+                  <option value={station} key={key}>
+                    {station}
+                  </option>
+                );
+              })}
+            </select>
+          </>
+        )}
+        {stations.length > 0 && <button>확인하기</button>}
       </form>
     </>
   );
