@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import { fetchBusData, fetchSubwayData } from "../../api/axios";
 import busIdMap from "../../data/busIdData";
-import { BUS, BusData, SUBWAY, SubwayData } from "../../types/types";
+import { BUS, SUBWAY } from "../../types/types";
 
 const BUSID_MAP = busIdMap();
 
