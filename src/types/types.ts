@@ -8,7 +8,7 @@ type transportType = BUS_TYPE | SUBWAY_TYPE | null;
 
 interface transportState {
   state: transportType;
-  id: number | null;
+  id: string | null;
   direction: number | null;
   stations: string[];
 }

@@ -12,7 +12,7 @@ const transportSlice = createSlice({
   name: "transport",
   initialState,
   reducers: {
-    change: (
+    stateChange: (
       state: transportState,
       action: PayloadAction<{ state: transportType }>
     ) => {
@@ -20,6 +20,13 @@ const transportSlice = createSlice({
       state.direction = null;
       state.id = null;
       state.stations = [];
+    },
+    setStations: (
+      state: transportState,
+      action: PayloadAction<{ id: string; stations: string[] }>
+    ) => {
+      state.id = action.payload.id;
+      state.stations = action.payload.stations;
     },
   },
 });

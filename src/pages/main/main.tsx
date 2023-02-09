@@ -35,13 +35,25 @@ const Main = () => {
     e.preventDefault();
   };
 
-  //라디오버튼 선택할 때마다 리덕스 값 전환
+  //라디오버튼 선택할 때마다 리덕스 값 리셋
   const radiobuttonHandler = async (e: ChangeEvent<HTMLInputElement>) => {
     const transport = e.target.value as transportType; //타입 단언
-    dispatch(transportActions.change({ state: transport }));
+    dispatch(transportActions.stateChange({ state: transport }));
   };
 
-  //
+  //호선이 선택되면 해당 호선 정류장 리스트를 가져와서 리덕스 값 수정
+  const stationDropboxHandler = async (e: ChangeEvent<HTMLSelectElement>) => {
+    const id = e.target.value;
+
+    if (id) {
+      const response = await (state.state === BUS
+        ? fetchBusData(parseInt(BUSID_MAP.get(id)))
+        : fetchSubwayData(parseInt(id)));
+      console.log(response);
+    }
+
+    dispatch(transportActions.setStations({ id: id, stations: [] }));
+  };
 
   return (
     <>
@@ -72,7 +84,7 @@ const Main = () => {
               <input type="text" placeholder="버스 번호" ref={idRef} />
             )}
             {state.state === SUBWAY && (
-              <select>
+              <select onChange={stationDropboxHandler}>
                 <option value="null">호선 선택</option>
                 <option value="1">1호선</option>
                 <option value="2">2호선</option>
