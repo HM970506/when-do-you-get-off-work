@@ -1,7 +1,8 @@
 import { combineReducers } from "redux";
+import transport from "./transport";
 
 const rootReducer = combineReducers({
-  //reducer1:reducer1, reducer2:reducer2...
+  transport: transport,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

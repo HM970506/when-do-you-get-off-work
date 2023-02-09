@@ -4,19 +4,14 @@ const SUBWAY = "SUBWAY";
 type BUS_TYPE = "BUS";
 type SUBWAY_TYPE = "SUBWAY";
 
-interface InputData {
-  direction: number;
-  station: string;
-  id: number;
+type transportType = BUS_TYPE | SUBWAY_TYPE | null;
+
+interface transportState {
+  state: transportType;
+  id: number | null;
+  direction: number | null;
+  stations: string[];
 }
 
-interface BusData extends Partial<InputData> {
-  state: BUS_TYPE;
-}
-
-interface SubwayData extends Partial<InputData> {
-  state: SUBWAY_TYPE;
-}
-
-export type { BUS_TYPE, SUBWAY_TYPE, BusData, SubwayData };
+export type { BUS_TYPE, SUBWAY_TYPE, transportState, transportType };
 export { BUS, SUBWAY };
