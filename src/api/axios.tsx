@@ -20,18 +20,24 @@ const fetchBusLocationData = async (inputData: BusData) => {
     .catch((err) => console.log("error: ", err));
 };
 
-const fetchBusData = async (inputData: BusData) => {
+const fetchBusData = async (busid: number) => {
   axios
     .get(BUS_DATA_URL, {
       params: {
         ServiceKey: SECRET_KEY,
-        busRoutedId: inputData.id,
+        busRoutedId: busid,
       },
     })
     .then((response) => console.log("busdata: ", response))
     .catch((err) => console.log("error: ", err));
 };
 
-const fetchSubwayData = async (inputData: SubwayData) => {};
+const fetchSubwayLocationData = async (inputData: SubwayData) => {};
+const fetchSubwayData = async (subwayid: number) => {};
 
-export { fetchBusLocationData, fetchBusData, fetchSubwayData };
+export {
+  fetchBusLocationData,
+  fetchBusData,
+  fetchSubwayLocationData,
+  fetchSubwayData,
+};

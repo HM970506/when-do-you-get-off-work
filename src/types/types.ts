@@ -1,5 +1,8 @@
-type BUS = "BUS";
-type SUBWAY = "SUBWAY";
+const BUS = "BUS";
+const SUBWAY = "SUBWAY";
+
+type BUS_TYPE = "BUS";
+type SUBWAY_TYPE = "SUBWAY";
 
 interface InputData {
   direction: number;
@@ -8,11 +11,12 @@ interface InputData {
 }
 
 interface BusData extends Partial<InputData> {
-  state: BUS;
+  state: BUS_TYPE;
 }
 
 interface SubwayData extends Partial<InputData> {
-  state: SUBWAY;
+  state: SUBWAY_TYPE;
 }
 
-export type { BusData, SubwayData };
+export type { BUS_TYPE, SUBWAY_TYPE, BusData, SubwayData };
+export { BUS, SUBWAY };
