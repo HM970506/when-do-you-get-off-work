@@ -1,38 +1,47 @@
 import React, {
   ChangeEvent,
   FormEvent,
-  MouseEventHandler,
+  useEffect,
   useRef,
   useState,
 } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { fetchBusData, fetchSubwayData } from "../../api/axios";
 import busIdMap from "../../data/busIdData";
-import { BUS, SUBWAY } from "../../types/types";
+import { transportActions } from "../../store/transport";
+import { BUS, SUBWAY, transportState, transportType } from "../../types/types";
+
+interface reduxStateType {
+  transport: transportState;
+}
 
 const BUSID_MAP = busIdMap();
 
 const Main = () => {
-  const [state, setState] = useState<string | null>(null);
-  const [stations, setStations] = useState([]);
+  const dispatch = useDispatch();
+  const reduxState = useSelector((state: reduxStateType) => state.transport);
+  const [state, setState] = useState(reduxState);
+
   const idRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    console.log("reduxState:", reduxState);
+    setState(reduxState);
+  }, [reduxState]);
+
+  useEffect(() => {}, [state]);
 
   const submitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const inputData = {
-      state: state,
-      direction: 1,
-      station: "",
-      id: 1,
-    };
-
-    console.log();
   };
 
+  //라디오버튼 선택할 때마다 리덕스 값 전환
   const radiobuttonHandler = async (e: ChangeEvent<HTMLInputElement>) => {
-    const transpor = e.target.value;
-    setState(transpor);
-    setStations([]);
+    const transport = e.target.value as transportType; //타입 단언
+    dispatch(transportActions.change({ state: transport }));
   };
+
+  //
 
   return (
     <>
@@ -56,11 +65,13 @@ const Main = () => {
             onChange={radiobuttonHandler}
           />
         </div>
-        {state != null && (
+
+        {state.state && (
           <>
-            {state == BUS ? (
+            {state.state === BUS && (
               <input type="text" placeholder="버스 번호" ref={idRef} />
-            ) : (
+            )}
+            {state.state === SUBWAY && (
               <select>
                 <option value="null">호선 선택</option>
                 <option value="1">1호선</option>
@@ -76,7 +87,7 @@ const Main = () => {
             )}
             <select>
               <option value="null">정류장 선택</option>
-              {stations.map((station, key) => {
+              {state.stations.map((station, key) => {
                 return (
                   <option value={station} key={key}>
                     {station}
@@ -86,7 +97,9 @@ const Main = () => {
             </select>
           </>
         )}
-        {stations.length > 0 && <button>확인하기</button>}
+        {state.stations && state.stations.length > 0 && (
+          <button>확인하기</button>
+        )}
       </form>
     </>
   );

@@ -1,5 +1,4 @@
 import axios from "axios";
-import busIdMap from "../data/busIdData";
 import { transportState } from "../types/types";
 const BUS_LOCATION_URL = "http://ws.bus.go.kr/api/rest/buspos/getBusPosByRtid";
 const BUS_DATA_URL =

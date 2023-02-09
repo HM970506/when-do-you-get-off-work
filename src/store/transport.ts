@@ -12,7 +12,7 @@ const transportSlice = createSlice({
   name: "transport",
   initialState,
   reducers: {
-    setTitle: (
+    change: (
       state: transportState,
       action: PayloadAction<{ state: transportType }>
     ) => {
@@ -25,6 +25,5 @@ const transportSlice = createSlice({
 });
 
 //액션 생성자
-
 export const transportActions = transportSlice.actions;
 export default transportSlice.reducer;
